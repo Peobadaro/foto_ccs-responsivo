@@ -49,6 +49,35 @@
                                 <a href="#">Corporativo</a>
                             </div>
                         </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle">Produtos</a>
+                            <div class="dropdown-menu produtos-menu">
+                                <div class="produto-item">
+                                    <img src="Imagens/produto1.png" alt="Produto 1">
+                                    <h3>Câmera DSLR</h3>
+                                    <p>R$ 3.999,00</p>
+                                    <button class="add-carrinho" data-id="1">Adicionar ao Carrinho</button>
+                                </div>
+                                <div class="produto-item">
+                                    <img src="Imagens/produto2.png" alt="Produto 2">
+                                    <h3>Lente 50mm</h3>
+                                    <p>R$ 1.499,00</p>
+                                    <button class="add-carrinho" data-id="2">Adicionar ao Carrinho</button>
+                                </div>
+                                <div class="produto-item">
+                                    <img src="Imagens/produto3.png" alt="Produto 3">
+                                    <h3>Flash Profissional</h3>
+                                    <p>R$ 899,00</p>
+                                    <button class="add-carrinho" data-id="3">Adicionar ao Carrinho</button>
+                                </div>
+                                <div class="produto-item">
+                                    <img src="Imagens/produto4.png" alt="Produto 4">
+                                    <h3>Tripé</h3>
+                                    <p>R$ 599,00</p>
+                                    <button class="add-carrinho" data-id="4">Adicionar ao Carrinho</button>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </nav>
                 <button class="album-button">Album <span class="play-icon">▶</span></button>
@@ -94,58 +123,23 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Adicionar dentro da main, após a gallery-right -->
-                <section class="products-section">
-                    <h2>Nossos Produtos</h2>
-                    <div class="products-grid">
-                        <div class="product-card">
-                            <div class="product-image">
-                                <img src="Imagens/camera-1.png" alt="Câmera Profissional">
-                            </div>
-                            <div class="product-info">
-                                <h3>Câmera DSLR Pro</h3>
-                                <p>Câmera profissional com sensor full-frame e 24MP</p>
-                                <button class="add-to-cart">Adicionar ao Carrinho</button>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-image">
-                                <img src="Imagens/camera-2.png" alt="Lente Zoom">
-                            </div>
-                            <div class="product-info">
-                                <h3>Lente 70-200mm</h3>
-                                <p>Lente zoom profissional com abertura f/2.8</p>
-                                <button class="add-to-cart">Adicionar ao Carrinho</button>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-image">
-                                <img src="Imagens/camera-3.png" alt="Flash Externo">
-                            </div>
-                            <div class="product-info">
-                                <h3>Flash Speedlight</h3>
-                                <p>Flash profissional com controle wireless</p>
-                                <button class="add-to-cart">Adicionar ao Carrinho</button>
-                            </div>
-                        </div>
-
-                        <div class="product-card">
-                            <div class="product-image">
-                                <img src="Imagens/camera-1.png" alt="Tripé">
-                            </div>
-                            <div class="product-info">
-                                <h3>Tripé Profissional</h3>
-                                <p>Tripé de fibra de carbono com cabeça fluida</p>
-                                <button class="add-to-cart">Adicionar ao Carrinho</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
             </div>
         </main>
+    </div>
+
+    <!-- Adicionar o ícone do carrinho após o menu -->
+    <div class="carrinho-container">
+        <button class="carrinho-toggle">
+            🛒 <span class="carrinho-quantidade">0</span>
+        </button>
+        <div class="carrinho-menu">
+            <h3>Carrinho de Compras</h3>
+            <div class="carrinho-items"></div>
+            <div class="carrinho-total">
+                <p>Total: R$ <span class="total-valor">0,00</span></p>
+            </div>
+            <button class="finalizar-compra">Finalizar Compra</button>
+        </div>
     </div>
 </body>
 </html>

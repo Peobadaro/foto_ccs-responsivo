@@ -101,4 +101,71 @@ $(document).ready(function () {
     $('.menu .dropdown-menu').click(function(e) {
         e.stopPropagation();
     });
+
+    let carrinho = [];
+    
+    // Abrir/fechar carrinho
+    $('.carrinho-toggle').click(function(e) {
+        e.stopPropagation();
+        $('.carrinho-menu').toggleClass('show');
+    });
+
+    // Fechar carrinho ao clicar fora
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.carrinho-container').length) {
+            $('.carrinho-menu').removeClass('show');
+        }
+    });
+
+    // Adicionar produto ao carrinho
+    $('.add-carrinho').click(function() {
+        const id = $(this).data('id');
+        const produto = {
+            id: id,
+            nome: $(this).siblings('h3').text(),
+            preco: parseFloat($(this).siblings('p').text().replace('R$ ', '').replace('.', '').replace(',', '.')),
+            quantidade: 1
+        };
+
+        const itemExistente = carrinho.find(item => item.id === id);
+        if (itemExistente) {
+            itemExistente.quantidade++;
+        } else {
+            carrinho.push(produto);
+        }
+
+        atualizarCarrinho();
+    });
+
+    function atualizarCarrinho() {
+        const $carrinhoItems = $('.carrinho-items');
+        $carrinhoItems.empty();
+        
+        let total = 0;
+        carrinho.forEach(item => {
+            total += item.preco * item.quantidade;
+            $carrinhoItems.append(`
+                <div class="carrinho-item">
+                    <span>${item.nome}</span>
+                    <span>${item.quantidade}x</span>
+                    <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+                </div>
+            `);
+        });
+
+        $('.carrinho-quantidade').text(carrinho.reduce((acc, item) => acc + item.quantidade, 0));
+        $('.total-valor').text(total.toFixed(2));
+    }
+
+    // Finalizar compra
+    $('.finalizar-compra').click(function() {
+        if (carrinho.length > 0) {
+            alert('Compra finalizada! Total: R$ ' + $('.total-valor').text());
+            carrinho = [];
+            atualizarCarrinho();
+            $('.carrinho-menu').removeClass('show');
+        } else {
+            alert('Seu carrinho está vazio!');
+        }
+    });
 });
