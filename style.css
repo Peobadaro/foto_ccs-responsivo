@@ -496,18 +496,28 @@ main {
 
 .produto-item {
     background: white;
-    padding: 15px;
+    padding: 12px;
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: box-shadow 0.3s;
+}
+
+.produto-item:hover {
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
 .produto-item img {
     width: 100%;
-    height: 150px;
+    height: 120px; /* Altura reduzida para imagens menores */
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
+    transition: transform 0.3s;
+}
+
+.produto-item img:hover {
+    transform: scale(1.05); /* Efeito de zoom suave ao passar o mouse */
 }
 
 .produto-item h3 {
