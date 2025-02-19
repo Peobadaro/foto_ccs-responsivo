@@ -78,26 +78,26 @@ $(document).ready(function () {
     console.log("Largura:", document.documentElement.clientWidth);
     console.log("Altura:", document.documentElement.clientHeight);
 
-    // Atualizar manipulação dos dropdowns do menu
+    // Manipulação dos menus dropdown
     $('.menu .dropdown-toggle').click(function(e) {
         e.preventDefault();
         const $dropdownMenu = $(this).next('.dropdown-menu');
         
-        // Fecha outros dropdowns abertos
-        $('.menu .dropdown-menu').not($dropdownMenu).slideUp(300);
+        // Fecha outros dropdowns
+        $('.menu .dropdown-menu').not($dropdownMenu).slideUp(300).removeClass('show');
         
-        // Alterna o dropdown atual
-        $dropdownMenu.slideToggle(300);
+        // Alterna o dropdown atual com animação
+        $dropdownMenu.slideToggle(300).toggleClass('show');
     });
 
-    // Fechar dropdowns quando clicar fora
+    // Fecha os dropdowns quando clicar fora
     $(document).click(function(e) {
         if (!$(e.target).closest('.dropdown').length) {
-            $('.menu .dropdown-menu').slideUp(300);
+            $('.menu .dropdown-menu').slideUp(300).removeClass('show');
         }
     });
 
-    // Prevenir que o click no dropdown propague para o document
+    // Previne que o clique no menu propague para o documento
     $('.menu .dropdown-menu').click(function(e) {
         e.stopPropagation();
     });
