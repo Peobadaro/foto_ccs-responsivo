@@ -58,7 +58,15 @@ header {
 
 .logo {
     width: 60px;
-    height: auto;
+    height: 60px;
+    background-color: #3F41A6;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 24px;
+    border-radius: 8px;
 }
 
 .header-content {
@@ -71,13 +79,48 @@ header {
     display: flex;
     gap: 20px;
     list-style: none;
+    align-items: center;
 }
 
-.menu li a {
+.menu .dropdown {
+    position: relative;
+}
+
+.menu .dropdown-toggle {
     text-decoration: none;
     color: #2E323B;
     font-size: 16px;
     font-weight: 600;
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+}
+
+.menu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    min-width: 180px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    z-index: 1000;
+    padding: 8px 0;
+}
+
+.menu .dropdown-menu a {
+    color: #2E323B;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.menu .dropdown-menu a:hover {
+    background-color: #EEF4FF;
+    color: #3F41A6;
 }
 
 .album-button {
@@ -303,6 +346,20 @@ main {
         width: 100%;
         box-shadow: none;
         border: 1px solid #ddd;
+    }
+
+    .menu {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .menu .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        border: 1px solid #ddd;
+        margin-top: 5px;
     }
 }
 

@@ -78,18 +78,27 @@ $(document).ready(function () {
     console.log("Largura:", document.documentElement.clientWidth);
     console.log("Altura:", document.documentElement.clientHeight);
 
-    // Código existente do menu dropdown
-    $('.dropdown-toggle').click(function(e) {
+    // Atualizar manipulação dos dropdowns do menu
+    $('.menu .dropdown-toggle').click(function(e) {
         e.preventDefault();
         const $dropdownMenu = $(this).next('.dropdown-menu');
-        $('.dropdown-menu').not($dropdownMenu).slideUp(300);
+        
+        // Fecha outros dropdowns abertos
+        $('.menu .dropdown-menu').not($dropdownMenu).slideUp(300);
+        
+        // Alterna o dropdown atual
         $dropdownMenu.slideToggle(300);
     });
 
-    // Fechar dropdown quando clicar fora
+    // Fechar dropdowns quando clicar fora
     $(document).click(function(e) {
         if (!$(e.target).closest('.dropdown').length) {
-            $('.dropdown-menu').slideUp(300);
+            $('.menu .dropdown-menu').slideUp(300);
         }
+    });
+
+    // Prevenir que o click no dropdown propague para o document
+    $('.menu .dropdown-menu').click(function(e) {
+        e.stopPropagation();
     });
 });
