@@ -500,8 +500,9 @@ main {
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    overflow: hidden; /* Previne que a expansão afete outros elementos */
+    transition: all 0.4s ease;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .produto-item:hover {
@@ -514,14 +515,14 @@ main {
     object-fit: cover;
     border-radius: 4px;
     margin-bottom: 10px;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
     cursor: pointer;
 }
 
 .produto-item img:hover {
-    height: 160px; /* Aumenta a altura em 40px */
-    transform: translateY(-10px); /* Move a imagem um pouco para cima */
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    height: 200px;
+    transform: translateY(-15px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.25);
 }
 
 .produto-item h3,
@@ -533,7 +534,7 @@ main {
 .produto-item:hover h3,
 .produto-item:hover p,
 .produto-item:hover button {
-    transform: translateY(5px);
+    transform: translateY(10px);
 }
 
 .produto-item h3 {
