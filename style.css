@@ -80,10 +80,13 @@ header {
     gap: 20px;
     list-style: none;
     align-items: center;
+    flex-wrap: nowrap; /* Evita quebra de linha nos itens */
 }
 
 .menu .dropdown {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .menu .dropdown-toggle {
@@ -91,10 +94,19 @@ header {
     color: #2E323B;
     font-size: 16px;
     font-weight: 600;
-    padding: 10px;
-    display: block;
-    cursor: pointer;
-    transition: color 0.3s;
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 140px; /* Largura mínima para acomodar o texto */
+    white-space: nowrap; /* Evita quebra de linha */
+}
+
+/* Estilo para a seta */
+.menu .dropdown-toggle::after {
+    content: "▼";
+    font-size: 12px;
+    margin-left: 5px;
 }
 
 .menu .dropdown-toggle:hover {
@@ -107,7 +119,7 @@ header {
     top: 100%;
     left: 0;
     background-color: #fff;
-    min-width: 200px;
+    min-width: 100%; /* Garante que o menu dropdown seja pelo menos tão largo quanto o botão */
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     border-radius: 8px;
     padding: 8px 0;
@@ -115,6 +127,7 @@ header {
     opacity: 0;
     transform: translateY(-10px);
     transition: opacity 0.3s, transform 0.3s;
+    white-space: nowrap; /* Evita quebra de linha nos itens do menu */
 }
 
 .menu .dropdown-menu.show {
