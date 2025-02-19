@@ -116,7 +116,8 @@ header {
     display: flex;
     gap: clamp(10px, 2vw, 20px);
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap; /* Evita quebra de linha */
+    justify-content: flex-start; /* Alinha itens à esquerda */
 }
 
 .menu .dropdown {
@@ -187,7 +188,7 @@ header {
 }
 
 .album-button {
-    margin-left: auto; /* Empurra o botão para o lado direito */
+    margin-left: 20px; /* Espaço entre o menu e o botão */
     background-color: #3F41A6;
     color: #FFF;
     padding: 10px 20px;
@@ -197,7 +198,6 @@ header {
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: 500px;
 }
 
 main {
@@ -420,8 +420,16 @@ main {
 @media screen and (max-width: 768px) {
     .menu {
         flex-direction: column;
-        align-items: stretch;
         width: 100%;
+    }
+
+    .menu .dropdown:last-child {
+        margin-left: 0; /* Remove o margin-left em telas menores */
+    }
+
+    .album-button {
+        margin-left: 0;
+        margin-top: 10px;
     }
 
     .menu .dropdown {
