@@ -168,4 +168,21 @@ $(document).ready(function () {
             alert('Seu carrinho está vazio!');
         }
     });
+
+    // Manipulação do menu dropdown em mobile
+    $('.dropdown-toggle').click(function(e) {
+        if (window.innerWidth <= 640) {
+            e.preventDefault();
+            $(this).parent('.dropdown').toggleClass('active');
+            $(this).next('.dropdown-menu').slideToggle(300);
+        }
+    });
+
+    // Fechar dropdowns ao clicar fora
+    $(document).click(function(e) {
+        if (!$(e.target).closest('.dropdown').length) {
+            $('.dropdown-menu').slideUp(300);
+            $('.dropdown').removeClass('active');
+        }
+    });
 });

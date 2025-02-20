@@ -50,17 +50,61 @@ body {
     display: flex;
     gap: 20px;
     list-style: none;
+    align-items: center;
 }
 
-.menu a {
+.dropdown {
+    position: relative;
+}
+
+.dropdown-toggle {
     color: var(--text-color);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
-.menu a:hover {
+.dropdown-toggle::after {
+    content: "▼";
+    font-size: 12px;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    min-width: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    z-index: 1000;
+    padding: 8px 0;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    list-style: none;
+}
+
+.dropdown-menu a {
+    color: var(--text-color);
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block;
+    transition: all 0.3s;
+}
+
+.dropdown-menu a:hover {
+    background: var(--background-color);
     color: var(--primary-color);
+    padding-left: 25px;
 }
 
 /* Seção Sobre */
@@ -208,6 +252,14 @@ body {
     .sobre-content {
         gap: 20px;
     }
+
+    .menu {
+        gap: 10px;
+    }
+
+    .dropdown-menu {
+        min-width: 180px;
+    }
 }
 
 @media screen and (max-width: 640px) {
@@ -219,8 +271,33 @@ body {
 
     .menu {
         flex-direction: column;
-        align-items: center;
         width: 100%;
+        align-items: stretch;
+    }
+
+    .dropdown {
+        width: 100%;
+    }
+
+    .dropdown-toggle {
+        justify-content: space-between;
+        padding: 15px;
+    }
+
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        background: var(--background-color);
+        display: none;
+    }
+
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+
+    .dropdown-menu a {
+        padding: 12px 30px;
     }
 
     /* Sobre Mobile */
