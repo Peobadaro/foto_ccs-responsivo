@@ -1,7 +1,7 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Exibir o formulário ao clicar no botão "Nova imagem +"
     document.querySelector('#nova-imagem-btn').addEventListener('click', function () {
-        document.querySelector('.footer-section').style.display = 'block'; // Exibe a div com efeito de deslizar em 500ms
+        document.querySelector('.footer-section').style.display = 'block'; // Exibe a div
     });
 
     // Interceptar o evento de submit do formulário
@@ -11,15 +11,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const imageUrl = document.querySelector('#imagem-url').value.trim(); // Pegar o valor da URL
         if (isValidURL(imageUrl)) {
-            const newImage = `
-                <div class="image-card">
-                    <img src="${imageUrl}" alt="Nova imagem"/>
-                    <p>${imageUrl}</p>
-                </div>`;
-            document.querySelector('.image-gallery').innerHTML += newImage;
+            const newImage = document.createElement('div');
+            newImage.classList.add('image-card');
+            newImage.innerHTML = `
+                <img src="${imageUrl}" alt="Nova imagem"/>
+                <p>${imageUrl}</p>
+            `;
+
+            document.querySelector('.image-gallery').appendChild(newImage);
             document.querySelector('#imagem-url').value = ''; // Limpar o campo de URL
             document.querySelector('#nova-imagem-form').classList.add('hidden'); // Ocultar o formulário
-            document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro, se houver
+            document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro
         } else {
             alert('URL inválida. Por favor, insira uma URL válida.');
             document.querySelector('#imagem-url').classList.add('error'); // Adicionar classe de erro
@@ -27,126 +29,64 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Cancelar e esconder o formulário ao clicar em "Cancelar"
-    document.querySelector('#cancelar-btn').addEventListener('click', function () {
+    document.getElementById('cancelar-btn').addEventListener('click', function () {
         document.querySelector('#imagem-url').value = ''; // Limpar o campo de URL
         document.querySelector('#nova-imagem-form').classList.add('hidden'); // Ocultar o formulário
-        document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro, se houver
+        document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro
     });
 
     // Função para validar URLs
     function isValidURL(url) {
         const urlPattern = new RegExp(
-            '^(https?:\\/\\/)?' + // Protocolo
-            '((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,}|' + // Domínio
-            '((\\d{1,3}\\.){3}\\d{1,3}))' + // IP (v4)
-            '(\\:\\d+)?(\\/[-a-zA-Z\\d%_.~+]*)*' + // Caminho
-            '(\\?[;&a-zA-Z\\d%_.~+=-]*)?' + // Query string
-            '(\\#[-a-zA-Z\\d_]*)?$', // Fragmento
+            '^(https?:\\/\\/)?' + 
+            '((([a-zA-Z\\d]([a-zA-Z\\d-]*[a-zA-Z\\d])*)\\.)+[a-zA-Z]{2,}|' + 
+            '((\\d{1,3}\\.){3}\\d{1,3}))' + 
+            '(\\:\\d+)?(\\/[-a-zA-Z\\d%_.~+]*)*' + 
+            '(\\?[;&a-zA-Z\\d%_.~+=-]*)?' + 
+            '(\\#[-a-zA-Z\\d_]*)?$', 
             'i'
         );
         return !!urlPattern.test(url);
     }
 
     document.querySelector('#adicionar-btn').addEventListener('click', function () {
-        const imageUrl = document.querySelector('#imagem-url').value.trim(); // Pegar o valor do campo
+        const imageUrl = document.querySelector('#imagem-url').value.trim();
         if (isValidURL(imageUrl)) {
-            const newImage = `
-                <div class="image-card">
-                    <img src="${imageUrl}" alt="Nova imagem">
-                </div>`;
-            document.querySelector('.gallery-right .image-row:last').innerHTML += newImage; // Adiciona a imagem na galeria
+            const newImage = document.createElement('div');
+            newImage.classList.add('image-card');
+            newImage.innerHTML = `<img src="${imageUrl}" alt="Nova imagem">`;
+
+            const imageRows = document.querySelectorAll('.gallery-right .image-row');
+            if (imageRows.length > 0) {
+                imageRows[imageRows.length - 1].appendChild(newImage);
+            }
             document.querySelector('#imagem-url').value = ''; // Limpar o campo de entrada
         } else {
             alert('URL inválida. Por favor, insira uma URL válida.');
         }
     });
 
-    document.getElementById('#cancelar-btn')?.addEventListener('click', function () {
-        const footerInput = document.getElementById('url-footer');
-        if (footerInput) {
-            footerInput.value = '';
-            footerInput.classList.remove('invalid-input', 'valid-input'); // Remove as classes de validação
-        }
-    });
-    // Cancelar a adição de imagem e ocultar a footer-section
-    document.querySelector('#cancelar-btn').addEventListener('click', function () {
-        document.querySelector('#imagem-url').value = ''; // Limpar o campo de entrada
-        document.querySelector('.footer-section').style.display = 'none'; // Ocultar a footer-section com animação
-    });
-
-    // Exibir largura e altura da janela no console
-    console.log("Largura:", document.documentElement.clientWidth);
-    console.log("Altura:", document.documentElement.clientHeight);
-
     // Manipulação dos menus dropdown
-    document.querySelectorAll('.menu .dropdown-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function (e) {
             e.preventDefault();
             const dropdownMenu = this.nextElementSibling;
-            const parent = this.parentElement;
-            
-            // Fecha outros dropdowns
-            document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
+
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 if (menu !== dropdownMenu) {
                     menu.style.display = 'none';
-                    menu.parentElement.classList.remove('show');
                 }
             });
-            
-            // Toggle do dropdown atual com animação
+
             dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-            parent.classList.toggle('show');
         });
     });
 
     // Fecha os dropdowns quando clicar fora
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.dropdown')) {
-            document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
-                menu.style.display = 'none';
-                menu.parentElement.classList.remove('show');
-            });
-        }
-    });
-
-    // Previne que o clique no menu propague para o documento
-    document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
-        menu.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-    });
-
-    let carrinho = [];
-    
-    // Manipulação do menu dropdown em mobile
-    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            if (window.innerWidth <= 640) {
-                e.preventDefault();
-                const dropdownMenu = this.nextElementSibling;
-                const parent = this.parentElement;
-                
-                // Fecha outros dropdowns
-                document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                    if (menu !== dropdownMenu) {
-                        menu.style.display = 'none';
-                        menu.parentElement.classList.remove('active');
-                    }
-                });
-                
-                // Toggle do dropdown atual
-                parent.classList.toggle('active');
-                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
-            }
-        });
-    });
-
-    // Fechar dropdowns ao clicar fora
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!e.target.closest('.dropdown')) {
             document.querySelectorAll('.dropdown-menu').forEach(menu => {
                 menu.style.display = 'none';
-                menu.parentElement.classList.remove('active');
             });
         }
     });
@@ -154,22 +94,24 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carrinho de compras
     const carrinhoToggle = document.querySelector('.carrinho-toggle');
     const carrinhoMenu = document.querySelector('.carrinho-menu');
-    
-    carrinhoToggle.addEventListener('click', function(e) {
+
+    carrinhoToggle.addEventListener('click', function (e) {
         e.stopPropagation();
-        carrinhoMenu.style.display = carrinhoMenu.style.display === 'block' ? 'none' : 'block';
+        carrinhoMenu.classList.toggle('show');
     });
 
     // Fechar carrinho ao clicar fora
-    document.addEventListener('click', function(e) {
+    document.addEventListener('click', function (e) {
         if (!e.target.closest('.carrinho-container')) {
-            carrinhoMenu.style.display = 'none';
+            carrinhoMenu.classList.remove('show');
         }
     });
 
+    let carrinho = [];
+
     // Adicionar produto ao carrinho
     document.querySelectorAll('.add-carrinho').forEach(button => {
-        button.addEventListener('click', function() {
+        button.addEventListener('click', function () {
             const card = this.closest('.produto-card');
             const produto = {
                 id: this.dataset.id,
@@ -181,9 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 quantidade: 1
             };
 
-            const itemExistente = carrinho.find(item => item.id === produto.id);
-            if (itemExistente) {
-                itemExistente.quantidade++;
+            const itemIndex = carrinho.findIndex(item => item.id === produto.id);
+            if (itemIndex !== -1) {
+                carrinho[itemIndex].quantidade++;
             } else {
                 carrinho.push(produto);
             }
@@ -195,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function atualizarCarrinho() {
         const carrinhoItems = document.querySelector('.carrinho-items');
         carrinhoItems.innerHTML = '';
-        
+
         let total = 0;
         carrinho.forEach(item => {
             total += item.preco * item.quantidade;
@@ -209,18 +151,18 @@ document.addEventListener('DOMContentLoaded', function() {
             carrinhoItems.appendChild(itemElement);
         });
 
-        document.querySelector('.carrinho-quantidade').textContent = 
+        document.querySelector('.carrinho-quantidade').textContent =
             carrinho.reduce((acc, item) => acc + item.quantidade, 0);
         document.querySelector('.total-valor').textContent = total.toFixed(2);
     }
 
     // Finalizar compra
-    document.querySelector('.finalizar-compra').addEventListener('click', function() {
+    document.querySelector('.finalizar-compra').addEventListener('click', function () {
         if (carrinho.length > 0) {
             alert('Compra finalizada! Total: R$ ' + document.querySelector('.total-valor').textContent);
             carrinho = [];
             atualizarCarrinho();
-            carrinhoMenu.style.display = 'none';
+            carrinhoMenu.classList.remove('show');
         } else {
             alert('Seu carrinho está vazio!');
         }
