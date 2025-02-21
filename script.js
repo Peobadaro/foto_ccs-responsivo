@@ -1,36 +1,36 @@
-$(document).ready(function () {
+document.addEventListener('DOMContentLoaded', function() {
     // Exibir o formulário ao clicar no botão "Nova imagem +"
-    $('#nova-imagem-btn').click(function () {
-        $('.footer-section').slideDown(500); // Exibe a div com efeito de deslizar em 500ms
+    document.querySelector('#nova-imagem-btn').addEventListener('click', function () {
+        document.querySelector('.footer-section').style.display = 'block'; // Exibe a div com efeito de deslizar em 500ms
     });
 
     // Interceptar o evento de submit do formulário
-    $('#nova-imagem-form').on('submit', function (e) {
+    document.querySelector('#nova-imagem-form').addEventListener('submit', function (e) {
         e.preventDefault(); // Prevenir o comportamento padrão do formulário
         console.log("Formulário enviado");
 
-        const imageUrl = $('#imagem-url').val().trim(); // Pegar o valor da URL
+        const imageUrl = document.querySelector('#imagem-url').value.trim(); // Pegar o valor da URL
         if (isValidURL(imageUrl)) {
             const newImage = `
                 <div class="image-card">
                     <img src="${imageUrl}" alt="Nova imagem"/>
                     <p>${imageUrl}</p>
                 </div>`;
-            $('.image-gallery').append(newImage);
-            $('#imagem-url').val(''); // Limpar o campo de URL
-            $('#nova-imagem-form').addClass('hidden'); // Ocultar o formulário
-            $('#imagem-url').removeClass('error'); // Remover classe de erro, se houver
+            document.querySelector('.image-gallery').innerHTML += newImage;
+            document.querySelector('#imagem-url').value = ''; // Limpar o campo de URL
+            document.querySelector('#nova-imagem-form').classList.add('hidden'); // Ocultar o formulário
+            document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro, se houver
         } else {
             alert('URL inválida. Por favor, insira uma URL válida.');
-            $('#imagem-url').addClass('error'); // Adicionar classe de erro
+            document.querySelector('#imagem-url').classList.add('error'); // Adicionar classe de erro
         }
     });
 
     // Cancelar e esconder o formulário ao clicar em "Cancelar"
-    $('#cancelar-btn').click(function () {
-        $('#imagem-url').val(''); // Limpar o campo de URL
-        $('#nova-imagem-form').addClass('hidden'); // Ocultar o formulário
-        $('#imagem-url').removeClass('error'); // Remover classe de erro, se houver
+    document.querySelector('#cancelar-btn').addEventListener('click', function () {
+        document.querySelector('#imagem-url').value = ''; // Limpar o campo de URL
+        document.querySelector('#nova-imagem-form').classList.add('hidden'); // Ocultar o formulário
+        document.querySelector('#imagem-url').classList.remove('error'); // Remover classe de erro, se houver
     });
 
     // Função para validar URLs
@@ -47,15 +47,15 @@ $(document).ready(function () {
         return !!urlPattern.test(url);
     }
 
-    $('#adicionar-btn').click(function () {
-        const imageUrl = $('#imagem-url').val().trim(); // Pegar o valor do campo
+    document.querySelector('#adicionar-btn').addEventListener('click', function () {
+        const imageUrl = document.querySelector('#imagem-url').value.trim(); // Pegar o valor do campo
         if (isValidURL(imageUrl)) {
             const newImage = `
                 <div class="image-card">
                     <img src="${imageUrl}" alt="Nova imagem">
                 </div>`;
-            $('.gallery-right .image-row:last').append(newImage); // Adiciona a imagem na galeria
-            $('#imagem-url').val(''); // Limpar o campo de entrada
+            document.querySelector('.gallery-right .image-row:last').innerHTML += newImage; // Adiciona a imagem na galeria
+            document.querySelector('#imagem-url').value = ''; // Limpar o campo de entrada
         } else {
             alert('URL inválida. Por favor, insira uma URL válida.');
         }
@@ -69,9 +69,9 @@ $(document).ready(function () {
         }
     });
     // Cancelar a adição de imagem e ocultar a footer-section
-    $('#cancelar-btn').click(function () {
-        $('#imagem-url').val(''); // Limpar o campo de entrada
-        $('.footer-section').slideUp(500); // Ocultar a footer-section com animação
+    document.querySelector('#cancelar-btn').addEventListener('click', function () {
+        document.querySelector('#imagem-url').value = ''; // Limpar o campo de entrada
+        document.querySelector('.footer-section').style.display = 'none'; // Ocultar a footer-section com animação
     });
 
     // Exibir largura e altura da janela no console
@@ -79,110 +79,150 @@ $(document).ready(function () {
     console.log("Altura:", document.documentElement.clientHeight);
 
     // Manipulação dos menus dropdown
-    $('.menu .dropdown-toggle').click(function(e) {
-        e.preventDefault();
-        const $dropdownMenu = $(this).next('.dropdown-menu');
-        
-        // Fecha outros dropdowns
-        $('.menu .dropdown-menu').not($dropdownMenu).slideUp(300).removeClass('show');
-        
-        // Alterna o dropdown atual com animação
-        $dropdownMenu.slideToggle(300).toggleClass('show');
+    document.querySelectorAll('.menu .dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            const dropdownMenu = this.nextElementSibling;
+            const parent = this.parentElement;
+            
+            // Fecha outros dropdowns
+            document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
+                if (menu !== dropdownMenu) {
+                    menu.style.display = 'none';
+                    menu.parentElement.classList.remove('show');
+                }
+            });
+            
+            // Toggle do dropdown atual com animação
+            dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+            parent.classList.toggle('show');
+        });
     });
 
     // Fecha os dropdowns quando clicar fora
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.dropdown').length) {
-            $('.menu .dropdown-menu').slideUp(300).removeClass('show');
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
+                menu.style.display = 'none';
+                menu.parentElement.classList.remove('show');
+            });
         }
     });
 
     // Previne que o clique no menu propague para o documento
-    $('.menu .dropdown-menu').click(function(e) {
-        e.stopPropagation();
+    document.querySelectorAll('.menu .dropdown-menu').forEach(menu => {
+        menu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
     });
 
     let carrinho = [];
     
-    // Abrir/fechar carrinho
-    $('.carrinho-toggle').click(function(e) {
+    // Manipulação do menu dropdown em mobile
+    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
+        toggle.addEventListener('click', function(e) {
+            if (window.innerWidth <= 640) {
+                e.preventDefault();
+                const dropdownMenu = this.nextElementSibling;
+                const parent = this.parentElement;
+                
+                // Fecha outros dropdowns
+                document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    if (menu !== dropdownMenu) {
+                        menu.style.display = 'none';
+                        menu.parentElement.classList.remove('active');
+                    }
+                });
+                
+                // Toggle do dropdown atual
+                parent.classList.toggle('active');
+                dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    });
+
+    // Fechar dropdowns ao clicar fora
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                menu.style.display = 'none';
+                menu.parentElement.classList.remove('active');
+            });
+        }
+    });
+
+    // Carrinho de compras
+    const carrinhoToggle = document.querySelector('.carrinho-toggle');
+    const carrinhoMenu = document.querySelector('.carrinho-menu');
+    
+    carrinhoToggle.addEventListener('click', function(e) {
         e.stopPropagation();
-        $('.carrinho-menu').toggleClass('show');
+        carrinhoMenu.style.display = carrinhoMenu.style.display === 'block' ? 'none' : 'block';
     });
 
     // Fechar carrinho ao clicar fora
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.carrinho-container').length) {
-            $('.carrinho-menu').removeClass('show');
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.carrinho-container')) {
+            carrinhoMenu.style.display = 'none';
         }
     });
 
     // Adicionar produto ao carrinho
-    $('.add-carrinho').click(function() {
-        const id = $(this).data('id');
-        const produto = {
-            id: id,
-            nome: $(this).siblings('h3').text(),
-            preco: parseFloat($(this).siblings('p').text().replace('R$ ', '').replace('.', '').replace(',', '.')),
-            quantidade: 1
-        };
+    document.querySelectorAll('.add-carrinho').forEach(button => {
+        button.addEventListener('click', function() {
+            const card = this.closest('.produto-card');
+            const produto = {
+                id: this.dataset.id,
+                nome: card.querySelector('h3').textContent,
+                preco: parseFloat(card.querySelector('.preco').textContent
+                    .replace('R$ ', '')
+                    .replace('.', '')
+                    .replace(',', '.')),
+                quantidade: 1
+            };
 
-        const itemExistente = carrinho.find(item => item.id === id);
-        if (itemExistente) {
-            itemExistente.quantidade++;
-        } else {
-            carrinho.push(produto);
-        }
+            const itemExistente = carrinho.find(item => item.id === produto.id);
+            if (itemExistente) {
+                itemExistente.quantidade++;
+            } else {
+                carrinho.push(produto);
+            }
 
-        atualizarCarrinho();
+            atualizarCarrinho();
+        });
     });
 
     function atualizarCarrinho() {
-        const $carrinhoItems = $('.carrinho-items');
-        $carrinhoItems.empty();
+        const carrinhoItems = document.querySelector('.carrinho-items');
+        carrinhoItems.innerHTML = '';
         
         let total = 0;
         carrinho.forEach(item => {
             total += item.preco * item.quantidade;
-            $carrinhoItems.append(`
-                <div class="carrinho-item">
-                    <span>${item.nome}</span>
-                    <span>${item.quantidade}x</span>
-                    <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
-                </div>
-            `);
+            const itemElement = document.createElement('div');
+            itemElement.className = 'carrinho-item';
+            itemElement.innerHTML = `
+                <span>${item.nome}</span>
+                <span>${item.quantidade}x</span>
+                <span>R$ ${(item.preco * item.quantidade).toFixed(2)}</span>
+            `;
+            carrinhoItems.appendChild(itemElement);
         });
 
-        $('.carrinho-quantidade').text(carrinho.reduce((acc, item) => acc + item.quantidade, 0));
-        $('.total-valor').text(total.toFixed(2));
+        document.querySelector('.carrinho-quantidade').textContent = 
+            carrinho.reduce((acc, item) => acc + item.quantidade, 0);
+        document.querySelector('.total-valor').textContent = total.toFixed(2);
     }
 
     // Finalizar compra
-    $('.finalizar-compra').click(function() {
+    document.querySelector('.finalizar-compra').addEventListener('click', function() {
         if (carrinho.length > 0) {
-            alert('Compra finalizada! Total: R$ ' + $('.total-valor').text());
+            alert('Compra finalizada! Total: R$ ' + document.querySelector('.total-valor').textContent);
             carrinho = [];
             atualizarCarrinho();
-            $('.carrinho-menu').removeClass('show');
+            carrinhoMenu.style.display = 'none';
         } else {
             alert('Seu carrinho está vazio!');
-        }
-    });
-
-    // Manipulação do menu dropdown em mobile
-    $('.dropdown-toggle').click(function(e) {
-        if (window.innerWidth <= 640) {
-            e.preventDefault();
-            $(this).parent('.dropdown').toggleClass('active');
-            $(this).next('.dropdown-menu').slideToggle(300);
-        }
-    });
-
-    // Fechar dropdowns ao clicar fora
-    $(document).click(function(e) {
-        if (!$(e.target).closest('.dropdown').length) {
-            $('.dropdown-menu').slideUp(300);
-            $('.dropdown').removeClass('active');
         }
     });
 });
